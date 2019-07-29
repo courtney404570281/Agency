@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "60136b136e320d9ea66d8026e4919a07",
+    "entities": [
+      {
+        "tableName": "Agency",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`agencyName` TEXT NOT NULL, `category` TEXT NOT NULL, PRIMARY KEY(`agencyName`))",
+        "fields": [
+          {
+            "fieldPath": "agencyName",
+            "columnName": "agencyName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "agencyName"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"60136b136e320d9ea66d8026e4919a07\")"
+    ]
+  }
+}
