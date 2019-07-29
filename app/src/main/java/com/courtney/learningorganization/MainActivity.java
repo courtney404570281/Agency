@@ -7,6 +7,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     List<Agency> agency;
     private RecyclerView recyclerView;
     private AgencyAdapter adapter;
+    private AgencyViewModel agencyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +39,23 @@ public class MainActivity extends AppCompatActivity {
         adapter = new AgencyAdapter(null);
         recyclerView.setAdapter(adapter);
 
-        new Thread(() -> {
+        /*new Thread(() -> {
             agency = AgencyDatabase.getInstance(this).agencyDao().getAgency();
             runOnUiThread(() -> {
                 adapter = new AgencyAdapter(agency);
                 recyclerView.setAdapter(adapter);
             });
-        }).start();
+        }).start();*/
+
+        agencyViewModel = ViewModelProviders.of(this)
+                .get(AgencyViewModel.class);
+        agencyViewModel.agencyLiveData.observe(this, new Observer<List<Agency>>() {
+            @Override
+            public void onChanged(List<Agency> agencies) {
+                adapter.setAgency(agencies);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

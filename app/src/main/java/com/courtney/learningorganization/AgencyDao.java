@@ -1,5 +1,6 @@
 package com.courtney.learningorganization;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface AgencyDao {
 
     @Query("SELECT * FROM agency")
-    List<Agency> getAgency();
+    LiveData<List<Agency>> getAgency();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Agency agency);
